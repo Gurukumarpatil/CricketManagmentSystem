@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+    <style>
+ :root {
+    --bg: #121212;           /* Very dark background */
+    --surface: #1f1f1f;      /* Slightly lighter surface */
+    --text: #e0e0e0;         /* Light text */
+    --primary: #bb86fc;
+    --hover: #3700b3;
+    --accent: #03dac6;
+    --border: #2c2c2c;
+}
+
+.main-center {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: var(--surface);  /* dark surface bg */
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    color: var(--text);
+}
+
+#forms {
+    background: var(--surface);
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    color: var(--text);
+}
+
+#forms h2 {
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.5rem;
+}
+
+#forms .button {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--text);
+    padding: 0.6rem 1.2rem;
+    margin: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 5px rgba(187, 134, 252, 0.5);
+}
+
+#forms .button:hover {
+    background: var(--accent);
+    color: var(--surface);
+    box-shadow: 0 2px 10px rgba(3, 218, 198, 0.8);
+}
+
+body {
+    background-color: var(--bg);
+}
+
+
+
+    </style>
+</head>
+<body>
+  <div id="forms" class="section">
+  <!-- Team Form -->
+
+  {% if form.team_id %}
+  <a href="#" class="button" data-form="team-form"> Team</a>
+  <form method='POST' action="{% url 'teamForm' %}"id="team-form" class="input-form" style="display:none; margin-top: 2rem;">
+    {% csrf_token %}
+    {% comment %} <label>Team ID:<br><input type="text" name="team_id" required></label><br><br>
+    <label>Team Name:<br><input type="text" name="team_name" required></label><br><br>
+    <label>Home Ground:<br><input type="text" name="home_ground" required></label><br><br> {% endcomment %}
+    {{form.as_p}}
+     <button type="submit" class="button">Submit Team</button>
+  </form>
+  {% endif %}
+  <!-- Player Form -->
+   {% if form.bowling_role %}
+   <a href="#" class="button" data-form="player-form">Player</a>
+  <form method='POST' action="{% url 'playerForm' %}"id="player-form" class="input-form" style="display:none; margin-top: 2rem;">
+    {% csrf_token %}
+    
+    {{form.as_p}}
+    
+    <button type="submit" class="button">Submit Player</button>
+  </form>
+  {% endif %}
+
+  <!-- Match Form -->
+   {% if form.match_id %}
+   <a href="#" class="button" data-form="match-form"> Match</a>
+   <form method='POST' action="{% url 'matchForm' %}" id="match-form" class="input-form" style="display:none; margin-top: 2rem;">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="button">Submit Match</button>
+  </form>
+  {% endif %}
+</div>
+
+ <script>
+  const buttons = document.querySelectorAll('#forms .button[data-form]');
+  const forms = document.querySelectorAll('#forms .input-form');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetFormId = btn.dataset.form;
+
+      forms.forEach(f => {
+        f.style.display = (f.id === targetFormId) ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Optional: handle form submits - here just logging values (you can integrate with your backend)
+  {% comment %} forms.forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const obj = {};
+      data.forEach((value, key) => {
+        obj[key] = value;
+      });
+      console.log(`Submitting ${form.id}:`, obj);
+      alert(`Submitted ${form.id}! Check console for data.`);
+
+      // Reset form or keep it open as per your need
+      form.reset();
+    });
+  }); {% endcomment %}
+  const team1Select = document.getElementById("id_team1");
+    const team2Select = document.getElementById("id_team2");
+
+    function updateTeam2Options() {
+        const selectedTeam1 = team1Select.value;
+
+        for (const option of team2Select.options) {
+            option.disabled = (option.value === selectedTeam1);
+        }
+
+        // Reset selected team2 if it's the same as team1
+        if (team2Select.value === selectedTeam1) {
+            team2Select.selectedIndex = '';  // or set to ""
+        }
+    }
+
+    team1Select.addEventListener("change", updateTeam2Options);
+    window.addEventListener("DOMContentLoaded", updateTeam2Options);
+</script>
+
+    
+</body>
+</html>

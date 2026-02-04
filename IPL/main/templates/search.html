@@ -1,0 +1,27 @@
+<form method='GET' action="{% url 'search_player' %}" >
+    <input type='text' name='q' placeholder='search'>
+    <button type='submit'>search</button>
+</form>
+
+{% if players%}
+    <h2> Results </h2>
+    <ul> 
+        {% for play in players%}
+        <li>{{play.player}}</li>
+        {% if play.role %}
+            {{play.get_role_display}}
+            {% if play.is_wk%}
+                Wicket Keeper 
+            {% endif%}
+        {% endif%}
+        
+        {% if play.batting_role and play.bowling_role%}
+             {{play.get_batting_role_display}}
+             {{play.get_bowling_role_display}}
+        {% endif %}
+        {% endfor%}
+
+    </ul>
+{% elif request.GET.q %}
+    <p> Not found </p>
+{% endif%}

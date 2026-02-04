@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="matches" class="section active main-center">
+    <h2>Matches</h2>
+    <table class="matches-table">
+        <tr>
+            <th>ID</th>
+            <th>Team 1</th>
+            <th>Team 2</th>
+            <th>Date</th>
+            <th>Venue</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match.match_id }}</td>
+            <td>{{ match.team1 }}</td>
+            <td>{{ match.team2 }}</td>
+            <td>{{ match.date }}</td>
+            <td>{{ match.venue }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+

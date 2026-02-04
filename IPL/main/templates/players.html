@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="players" class="section active main-center">
+    {% comment %} {{request.resolver_match.view_name}} {% endcomment %}
+    {% if request.resolver_match.view_name == "display_players" %}
+        <h2>Players</h2>
+    {% elif request.resolver_match.view_name == "display_allrounders" %}
+        <h2>Allrounders</h2>
+    {% elif request.resolver_match.view_name == "display_batsmen" %}
+        <h2>Batsmen</h2>
+    {% elif request.resolver_match.view_name == "display_bowlers" %}
+        <h2>Bowlers</h2>
+    {% endif %}
+    <table class="players-table">
+        <tr><th>ID</th><th>Name</th><th>Team</th><th>Type</th><th>batting role</th><th>bowling role</th></tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ player.player_id }}</td>
+            <td>{{ player.name }}</td>
+            <td>{{ player.team.name }}</td>
+            {% if player.player_type == "allrounder" %}
+                    <td><a href="{% url "display_allrounders" %}">{{player.get_player_type_display}}</a></td>
+            {% elif  player.player_type == "batsmen" %}
+                    <td><a href="{% url "display_batsmen" %}">{{player.get_player_type_display}}</a></td>
+            {% else %}
+                    <td><a href="{% url "display_bowlers" %}">{{player.get_player_type_display}}</a></td>
+
+            {% endif %}
+            <td>{{ player.get_batting_role_display }}</td>
+            <td>{{ player.get_bowling_role_display }}</td>
+            <td><a href=" {% url "delete_player" player.player_id %}">❌</a></td>
+            <td><a href=" {% url "update_player" player.player_id %}">✍️</a></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
+   
+</div>
+
+{% endblock content %}
+

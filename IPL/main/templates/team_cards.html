@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="teams" class="section active main-center">
+    <h2>Teams</h2>
+    <table class="teams-table">
+        <tr>
+            <th>Team ID</th>
+            <th>Name</th>
+            <th>Home Ground</th>
+        </tr>
+        {% for team in teams %}
+        <tr>
+            <td>{{ team.team_id }}</td>
+            <td><a href=" {% url "display_team_players" team.team_id %}">{{ team.name }}</a></td>
+            <td>{{ team.home_ground }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
