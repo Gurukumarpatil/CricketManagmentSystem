@@ -49,4 +49,4 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ---
 
-**Made by [GuruKumar]((https://github.com/Gurukumarpatil/Guru))**  
+**Made by [GuruKumar]((https://github.com/Gurukumarpatil))**  
